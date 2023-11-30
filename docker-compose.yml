@@ -13,6 +13,8 @@ services:
     volumes:
       - ./www:/var/www
       - ./config/nginx/:/etc/nginx/conf.d/
+      - ./config/nginx/:/etc/nginx/sites-available/
+      - ./config/nginx/:/etc/nginx/sites-enabled/
       - ./scripts:/bin/app
     networks:
       - openweb-network
@@ -53,7 +55,7 @@ services:
 
   #MySQL Service
   mysql:
-    image: mysql:5.7.24
+    image: mysql:8.0.13
     container_name: "${PREFIX}mysql"
     restart: unless-stopped
     tty: true
@@ -70,98 +72,18 @@ services:
     networks:
       - openweb-network
 
-  #PostgreSQL
-  pgsql:
-    image: postgres
-    container_name: "${PREFIX}pgsql"
-    ports:
-      - "${PGSQL_PORT}:5432"
-    volumes:
-      - ./db/pgsql:/var/lib/postgresql
-      - ./scripts:/bin/app
-    environment:
-      POSTGRES_USER: "${PGSQL_USER}"
-      POSTGRES_PASSWORD: "${PGSQL_PASSWORD}"
-    networks:
-      - openweb-network
-
-  #RabbitMQ
-  rabbitmq:
-    image: rabbitmq
-    container_name: "${PREFIX}rabbitmq"
-    volumes:
-      - ./db/rabbitmq:/var/lib/rabbitmq
-      - ./scripts:/bin/app
-    environment:
-      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    ports:
-      - "${RABBITMQ_TRAFFIC_PORT}:5672"
-      - "${RABBITMQ_MANAGER_PORT}:15672"
-    networks:
-      - openweb-network
-
-  #Redis Service
-  redis:
-    image: redis
-    container_name: "${PREFIX}redis"
+#Bash Service
+  bash:
+    image: ubuntu:latest
+    container_name: "${PREFIX}bash"
     restart: unless-stopped
     tty: true
     ports:
-      - "${REDIS_PORT}:6379"
+      - "${BASH_PORT}:4000"
     volumes:
-      - ./db/redis:/var/lib/redis
       - ./scripts:/bin/app
-    environment:
-      - REDIS_REPLICATION_MODE=master
     networks:
       - openweb-network
-
-  #Memcached
-  memcached:
-    image: memcached
-    container_name: "${PREFIX}memcached"
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "${MEMCACHED_PORT}:11211"
-    networks:
-      - openweb-network
-
-  #MongoDB
-  mongodb:
-    image: "mongo:${MONGODB_VERSION}"
-    container_name: "${PREFIX}mongo"
-    volumes:
-      - ./db/mongodb:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_USER}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_PASSWORD}"
-    networks:
-      - openweb-network
-
-  #Clickhouse
-  clickhouse-server:
-    image: yandex/clickhouse-server
-    container_name: "${PREFIX}clickhouse-server"
-    restart: unless-stopped
-    ports:
-      - "${CLICKHOUSE_DB_PORT}:8123"
-      - "${CLICKHOUSE_CLIENT_PORT}:9000"
-      - "${CLICKHOUSE_REPLICATION_PORT}:9009"
-    volumes:
-      - ./db/clickhouse:/var/lib/clickhouse
-      - ./scripts:/bin/app
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 262144
-        hard: 262144
-  client:
-    image: yandex/clickhouse-client
-    container_name: "${PREFIX}clickhouse-client"
-    command: ['--host', 'server']
 
 #Docker Networks
 networks:
