@@ -26,6 +26,7 @@ RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install sockets
 RUN docker-php-ext-install zip
+RUN docker-php-ext-install intl
 RUN pecl install igbinary && docker-php-ext-enable igbinary
 
 # decimal
