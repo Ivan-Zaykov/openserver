@@ -1,0 +1,3 @@
+[submodule "www/www.moodle_test.ru"]
+	path = www/www.moodle_test.ru
+	url = git@github.com:Ivan-Zaykov/moodle_with_russian_assessment.git
