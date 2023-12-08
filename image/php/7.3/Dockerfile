@@ -28,6 +28,7 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-install sockets
 RUN docker-php-ext-install zip
 RUN pecl install igbinary && docker-php-ext-enable igbinary
+RUN docker-php-ext-install intl
 
 # Xdebug
 RUN pecl install xdebug-2.9.7 && docker-php-ext-enable xdebug
