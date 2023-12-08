@@ -113,3 +113,9 @@ Redis\
 Xdebug\
 MongoDB \
 ClickHouse
+
+### Работа с подмодулями
+Обновить подмодули
+```
+git submodule update --init --recursive
+```
