@@ -1,3 +1,4 @@
-[submodule "www/www.moodle_test.ru"]
+[submodule "moodle_test"]
 	path = www/www.moodle_test.ru
 	url = git@github.com:Ivan-Zaykov/moodle_with_russian_assessment.git
+	branch = main
