@@ -8,4 +8,4 @@ db/rabbitmq/*
 db/clickhouse/*
 db/mongodb/*
 www/moodledata/*
-www/www.moodle_test.ru/*
+www/www.moodle_test.ru/
