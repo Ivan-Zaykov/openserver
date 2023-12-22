@@ -7,4 +7,5 @@ db/pgsql/*
 db/rabbitmq/*
 db/clickhouse/*
 db/mongodb/*
-www/moodledata/
+www/moodledata/*
+www/www.moodle_test.ru/*
